@@ -12,18 +12,18 @@ import {
 import { ChangeEvent, useState } from "react";
 import AddPlayerButton from "./AddPlayerButton";
 import { MAXIMUM_PLAYER } from "../../commands";
+import { useSetAtom } from "jotai";
+import { pushUndoAtom } from "../../stores/CommandStore";
+import Player, { PlayerProps } from "./Player";
+import { OnDjClassSelectProps } from "./dj-class-dropdown/DjClassDropdown";
+import { makePlayer } from "../../utils/PlayerListUtil";
 import {
   AddPlayerCommand,
   DeletePlayerCommand,
   MovePlayerCommand,
   SetCaptainCommand,
   SetRecentPlayCommand,
-} from "../../commands/PlayerListCommands";
-import { useSetAtom } from "jotai";
-import { pushUndoAtom } from "../../stores/CommandStore";
-import Player, { PlayerProps } from "./Player";
-import { OnDjClassSelectProps } from "./dj-class-dropdown/DjClassDropdown";
-import { makePlayer } from "../../utils/PlayerListUtil";
+} from "../../commands/player";
 
 const initialPlayer = makePlayer(true);
 const initialPlayers: PlayerProps[] = [initialPlayer];
