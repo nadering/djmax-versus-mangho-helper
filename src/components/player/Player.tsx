@@ -1,7 +1,7 @@
-import Draggable from "./composition/Draggable";
-import Information from "./composition/Information";
-import DjClass, { DjClassDataProps } from "./composition/DjClass";
-import Control from "./composition/Control";
+import Draggable from "./parts/Draggable";
+import Information from "./parts/Information";
+import DjClass, { DjClassDataProps } from "./parts/DjClass";
+import Control from "./parts/Control";
 
 /**
  * 플레이어 구성 인터페이스,

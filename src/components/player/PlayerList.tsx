@@ -10,7 +10,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { ChangeEvent, useState } from "react";
-import AddPlayerButton from "../player/AddPlayerButton";
+import AddPlayerButton from "./AddPlayerButton";
 import { MAXIMUM_PLAYER } from "../../commands";
 import {
   AddPlayerCommand,
@@ -21,8 +21,8 @@ import {
 } from "../../commands/PlayerListCommands";
 import { useSetAtom } from "jotai";
 import { pushUndoAtom } from "../../stores/CommandStore";
-import Player, { PlayerProps } from "../player/Player";
-import { OnDjClassSelectProps } from "../player/dj-class/DjClassDropdown";
+import Player, { PlayerProps } from "./Player";
+import { OnDjClassSelectProps } from "./dj-class-dropdown/DjClassDropdown";
 import { makePlayer } from "../../utils/PlayerListUtil";
 
 const initialPlayer = makePlayer(true);

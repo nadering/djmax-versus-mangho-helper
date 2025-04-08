@@ -3,7 +3,7 @@ import { ChangeEvent, memo, useRef } from "react";
 import DjClassDropdown, {
   DjClassProps,
   OnDjClassSelectProps,
-} from "../dj-class/DjClassDropdown";
+} from "../dj-class-dropdown/DjClassDropdown";
 
 export interface DjClassDataProps {
   4: DjClassProps;

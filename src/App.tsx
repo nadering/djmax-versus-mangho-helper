@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import GuideModal from "./components/guide/GuideModal";
-import PlayerList from "./components/player-list/PlayerList";
+import PlayerList from "./components/player/PlayerList";
 import { useAtom } from "jotai";
 import { undoStackAtom } from "./stores/CommandStore";
 import Toast from "./components/toast/Toast";
-import "./App.css";
+import "./styles/App.css";
+import "./styles/animations.css";
 
 function App() {
   const [undoStack, setUndoStack] = useAtom(undoStackAtom);
