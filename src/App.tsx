@@ -43,7 +43,7 @@ function App() {
       <PlayerList />
 
       {showUndoToast && (
-        <Toast key={Date.now()} ttl={1000} setter={setShowUndoToast}>
+        <Toast key={Date.now()} ttl={1500} setter={setShowUndoToast}>
           되돌리기
         </Toast>
       )}

@@ -20,7 +20,8 @@ const Toast = ({ children, ttl, setter }: ToastProps) => {
   return (
     <div
       ref={toastRef}
-      className="fixed bottom-32 flex items-center justify-center px-3 py-1 mx-auto bg-black/60 text-white font-medium rounded-md select-none"
+      className="fixed bottom-32 z-50 flex items-center justify-center px-3 py-1 mx-auto bg-black/80 text-white font-medium rounded-md shadow-lg select-none
+        animate-fade-in-scale"
     >
       {children}
     </div>
