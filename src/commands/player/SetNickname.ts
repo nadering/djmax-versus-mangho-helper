@@ -13,7 +13,7 @@ export class SetNicknameCommand implements Command {
   private nickname: string;
   private setPlayers: React.Dispatch<React.SetStateAction<PlayerProps[]>>;
 
-  private beforeChangeNickname: string | null = null;
+  private previousNickname: string | null = null;
 
   constructor({ id, nickname, setPlayers }: SetNicknameCommandProps) {
     this.id = id;
@@ -25,7 +25,7 @@ export class SetNicknameCommand implements Command {
     this.setPlayers((prevPlayers) => {
       return prevPlayers.map((player) => {
         if (player.id === this.id && player.nickname !== this.nickname) {
-          this.beforeChangeNickname = player.nickname;
+          this.previousNickname = player.nickname;
           return { ...player, nickname: this.nickname };
         }
         return { ...player };
@@ -34,15 +34,18 @@ export class SetNicknameCommand implements Command {
   }
 
   undo() {
+    // this 바인딩이 달라, 지역 변수로 값을 캡처
+    const previousNickname = this.previousNickname;
+
     this.setPlayers((prevPlayers) => {
       return prevPlayers.map((player) => {
-        if (player.id === this.id && this.beforeChangeNickname !== null) {
-          return { ...player, nickname: this.beforeChangeNickname };
+        if (player.id === this.id && previousNickname !== null) {
+          return { ...player, nickname: previousNickname };
         }
         return { ...player };
       });
     });
-    this.beforeChangeNickname = null;
+    this.previousNickname = null;
   }
 
   redo() {
