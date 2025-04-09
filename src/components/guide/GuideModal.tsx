@@ -1,4 +1,4 @@
-import GuideImg from "/djmax-versus-mangho-helper-guide.png";
+import GuideImg from "/assets/djmax-versus-mangho-helper-guide.png";
 import { CircleXIcon, HelpCircleIcon } from "lucide-react";
 import { useState } from "react";
 
@@ -10,6 +10,7 @@ const GuideModal = () => {
     <>
       {/* 버튼 */}
       <button
+        title="가이드"
         className="absolute top-[50%] right-4 translate-y-[-50%] cursor-pointer duration-100 hover:scale-120"
         onClick={() => setIsOpen(true)}
       >

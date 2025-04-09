@@ -1,0 +1,1 @@
+export const COMMAND_STACK_MAXIMUM_SIZE = 30;
