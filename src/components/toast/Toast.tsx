@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { calculateToastStyle, removeToast } from "@/utils/ToastUtil";
-import { ANIMATION_TIME, PREVENT_BLINKING_TIME } from "@/constants/toast";
+import { ANIMATION_TIME, PREVENT_BLINKING_TIME } from "@/constants/Toast";
 
 export interface ToastProps {
   children: React.ReactNode;

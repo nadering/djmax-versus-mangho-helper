@@ -1,6 +1,6 @@
 import Command from "..";
 import { PlayerProps } from "@/components/player/Player";
-import { MAXIMUM_PLAYER } from "@/constants/player";
+import { MAXIMUM_PLAYER } from "@/constants/Player";
 import { makePlayer } from "@/utils/PlayerUtil";
 
 /** 플레이어 추가 커맨드 */

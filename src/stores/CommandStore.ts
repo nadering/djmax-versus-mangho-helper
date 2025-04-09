@@ -1,6 +1,6 @@
 import { atom, createStore } from "jotai";
 import Command from "@/commands";
-import { COMMAND_STACK_MAXIMUM_SIZE } from "@/constants/command";
+import { COMMAND_STACK_MAXIMUM_SIZE } from "@/constants/Command";
 
 export const commandStore = createStore();
 

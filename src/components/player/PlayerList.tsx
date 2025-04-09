@@ -19,16 +19,20 @@ import {
   DeletePlayerCommand,
   MovePlayerCommand,
   SetCaptainCommand,
+  SetDjClassCommand,
+  SetDjClassFakeCommand,
+  SetNicknameCommand,
   SetRecentPlayCommand,
 } from "@/commands/player";
 import { runCommand } from "@/utils/CommandUtil";
-import { MAXIMUM_PLAYER } from "@/constants/player";
+import { MAXIMUM_PLAYER } from "@/constants/Player";
 
 const initialPlayer = makePlayer(true);
 const initialPlayers: PlayerProps[] = [initialPlayer];
 
 /** 버망호 플레이어 목록 */
 const PlayerList = () => {
+  // 플레이어
   const [players, setPlayers] = useState(initialPlayers);
   const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(null);
   const isCaptainExist = players.some((p) => p.isCaptain);
@@ -36,55 +40,14 @@ const PlayerList = () => {
   // 드래그
   const sensors = useSensors(useSensor(PointerSensor));
 
-  // 단순 이벤트 핸들러
-  const handleNickname = (id: string, event: ChangeEvent<HTMLInputElement>) => {
-    setPlayers((prevPlayers) => {
-      return prevPlayers.map((player) => {
-        if (player.id === id) {
-          player.nickname = event.target.value;
-        }
-        return { ...player };
-      });
-    });
-  };
-
-  const handleDjClassFake = (
-    id: string,
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
-    setPlayers((prevPlayers) => {
-      return prevPlayers.map((player) => {
-        if (player.id === id) {
-          player.isDjClassFake = event.target.checked;
-        }
-        return { ...player };
-      });
-    });
-  };
-
-  const handleDjClassSelect = ({ id, button, value }: OnDjClassSelectProps) => {
-    setPlayers((prevPlayers) => {
-      return prevPlayers.map((player) => {
-        if (player.id === id) {
-          player.data[button].value = value;
-        }
-        return { ...player };
-      });
-    });
-  };
-
-  // 커맨드
+  // 커맨드 목록
   const handleAddButton = () => {
     const command = new AddPlayerCommand(setPlayers);
     runCommand(command);
   };
 
-  const handleDeleteButton = (id: string) => {
-    const command = new DeletePlayerCommand({
-      id,
-      setPlayers,
-      setSelectedPlayerId,
-    });
+  const handleNickname = (id: string, nickname: string) => {
+    const command = new SetNicknameCommand({ id, nickname, setPlayers });
     runCommand(command);
   };
 
@@ -97,10 +60,33 @@ const PlayerList = () => {
     runCommand(command);
   };
 
+  const handleDjClassFake = (
+    id: string,
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    const checked = event.target.checked;
+    const command = new SetDjClassFakeCommand({ id, checked, setPlayers });
+    runCommand(command);
+  };
+
+  const handleDjClassSelect = ({ id, button, value }: OnDjClassSelectProps) => {
+    const command = new SetDjClassCommand({ id, button, value, setPlayers });
+    runCommand(command);
+  };
+
   const handleCaptainButton = (id: string) => {
     const command = new SetCaptainCommand({
       id,
       setPlayers,
+    });
+    runCommand(command);
+  };
+
+  const handleDeleteButton = (id: string) => {
+    const command = new DeletePlayerCommand({
+      id,
+      setPlayers,
+      setSelectedPlayerId,
     });
     runCommand(command);
   };
