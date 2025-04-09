@@ -1,6 +1,6 @@
 import Command from "..";
-import { PlayerProps } from "../../components/player/Player";
-import { sortPlayers } from "../../utils/PlayerListUtil";
+import { PlayerProps } from "@/components/player/Player";
+import { sortPlayers } from "@/utils/PlayerUtil";
 
 interface SetRecentPlayCommandProps {
   id: string;
@@ -86,5 +86,9 @@ export class SetRecentPlayCommand implements Command {
       this.setPlayers(() => restored);
       this.previousPlayers = null;
     }
+  }
+
+  redo() {
+    this.execute();
   }
 }

@@ -1,54 +1,41 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import GuideModal from "./components/guide/GuideModal";
 import PlayerList from "./components/player/PlayerList";
-import { useAtom } from "jotai";
-import { undoStackAtom } from "./stores/CommandStore";
 import Toast from "./components/toast/Toast";
 import "./styles/App.css";
 import "./styles/animations.css";
+import { useAtomValue } from "jotai";
+import { toastListAtom, toastStore } from "./stores/ToastStore";
+import CommandArrow from "./components/guide/CommandArrow";
+import ToastViewport from "./components/toast/ToastViewport";
+import { handleKeyboardCommand } from "./utils/KeyboardUtil";
 
 function App() {
-  const [undoStack, setUndoStack] = useAtom(undoStackAtom);
-  const [showUndoToast, setShowUndoToast] = useState(false);
-
-  const handleKeyDown = (event: KeyboardEvent) => {
-    const isMac = navigator.userAgent.toLowerCase().includes("mac");
-    const ctrlKey = isMac ? event.metaKey : event.ctrlKey;
-
-    if (ctrlKey && event.key === "z") {
-      // 되돌리기 (Ctrl + Z)
-      event.preventDefault();
-      console.log("stack:", undoStack);
-
-      const command = undoStack.pop();
-      if (command) {
-        command.undo();
-        setUndoStack([...undoStack]);
-        setShowUndoToast(true);
-      }
-    }
-  };
+  // 토스트 팝업
+  const toastList = useAtomValue(toastListAtom, { store: toastStore });
 
   /** 키보드 이벤트를 최상위 컴포넌트에서 핸들링 */
   useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [undoStack]);
+    window.addEventListener("keydown", handleKeyboardCommand);
+    return () => window.removeEventListener("keydown", handleKeyboardCommand);
+  }, []);
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center bg-gray-200 py-8">
-      <div className="relative w-full max-w-xl flex justify-center">
-        <p className="text-4xl font-bold select-none">버망호 도우미</p>
-        <GuideModal />
-      </div>
-      <PlayerList />
-
-      {showUndoToast && (
-        <Toast key={Date.now()} ttl={1500} setter={setShowUndoToast}>
-          되돌리기
-        </Toast>
-      )}
-    </div>
+    <>
+      <main className="relative w-full h-full flex flex-col items-center bg-gray-200 py-8">
+        <div className="relative w-full max-w-xl flex justify-center">
+          <CommandArrow />
+          <p className="text-4xl font-bold select-none">버망호 도우미</p>
+          <GuideModal />
+        </div>
+        <PlayerList />
+      </main>
+      <ToastViewport>
+        {toastList.map((toast, index) => (
+          <Toast key={toast.id} index={index} {...toast} />
+        ))}
+      </ToastViewport>
+    </>
   );
 }
 

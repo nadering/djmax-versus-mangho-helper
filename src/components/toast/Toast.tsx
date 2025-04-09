@@ -1,30 +1,51 @@
 import { useEffect, useRef } from "react";
+import { calculateToastStyle, removeToast } from "@/utils/ToastUtil";
+import { ANIMATION_TIME, PREVENT_BLINKING_TIME } from "@/constants/toast";
 
-interface ToastProps {
+export interface ToastProps {
   children: React.ReactNode;
+  id: string;
   ttl: number;
-  setter: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Toast = ({ children, ttl, setter }: ToastProps) => {
-  const toastRef = useRef<HTMLDivElement>(null);
+interface IndexProps {
+  index: number;
+}
+
+/** 토스트 팝업 */
+const Toast = ({ children, id, ttl, index }: ToastProps & IndexProps) => {
+  const toastRef = useRef<HTMLLIElement>(null);
+  const animated = useRef(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setter(false);
+    const fadeInTimer = setTimeout(() => {
+      animated.current = true;
+    }, ANIMATION_TIME);
+
+    const fadeOutTimer = setTimeout(() => {
+      toastRef.current?.classList.add("animate-fade-out-opacity");
+    }, ttl - PREVENT_BLINKING_TIME);
+
+    const lifeTimer = setTimeout(() => {
+      removeToast(id);
     }, ttl);
 
-    return () => clearTimeout(timer);
-  }, [ttl, setter]);
+    return () => {
+      clearTimeout(fadeInTimer);
+      clearTimeout(fadeOutTimer);
+      clearTimeout(lifeTimer);
+    };
+  }, [children, ttl]);
 
   return (
-    <div
+    <li
       ref={toastRef}
-      className="fixed bottom-32 z-50 flex items-center justify-center px-3 py-1 mx-auto bg-black/80 text-white font-medium rounded-md shadow-lg select-none
-        animate-fade-in-scale"
+      className={`absolute flex items-center justify-center px-3 py-1 bg-gray-800 text-white font-medium rounded-md shadow-lg select-none
+        ${!animated.current ? "animate-fade-in-scale" : ""}`}
+      style={calculateToastStyle(index)}
     >
       {children}
-    </div>
+    </li>
   );
 };
 export default Toast;

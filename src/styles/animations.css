@@ -2,6 +2,7 @@
 
 @theme {
   --animate-fade-in-scale: fade-in-scale 0.2s ease-out;
+  --animate-fade-out-opacity: fade-out-opacity 0.2s ease-out;
 
   @keyframes fade-in-scale {
     0% {
@@ -11,6 +12,12 @@
     100% {
       opacity: 1;
       transform: scale(1);
+    }
+  }
+
+  @keyframes fade-out-opacity {
+    100% {
+      opacity: 0;
     }
   }
 }

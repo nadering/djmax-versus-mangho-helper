@@ -1,10 +1,10 @@
-interface DjClassProps {
+interface DjClassDropdownItemProps {
   name: string;
   isSub: boolean;
   subContent?: string[];
 }
 
-export const DJ_CLASS_LIST: DjClassProps[] = [
+export const DJ_CLASS_LIST: DjClassDropdownItemProps[] = [
   { name: "로오디", isSub: false },
   {
     name: "비마",

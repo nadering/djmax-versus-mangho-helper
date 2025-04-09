@@ -1,5 +1,5 @@
 import Command from "..";
-import { PlayerProps } from "../../components/player/Player";
+import { PlayerProps } from "@/components/player/Player";
 
 interface SetCaptainCommandProps {
   id: string;
@@ -36,5 +36,9 @@ export class SetCaptainCommand implements Command {
         );
       }
     });
+  }
+
+  redo() {
+    this.execute();
   }
 }

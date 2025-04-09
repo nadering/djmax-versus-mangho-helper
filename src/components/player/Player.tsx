@@ -5,7 +5,7 @@ import Control from "./parts/Control";
 
 /**
  * 플레이어 구성 인터페이스,
- * Dot notation으로 쪼개어 사용하지만 전체 속성은 데이터 관리를 위해 필수로 선언해야 함
+ * Player 컴포넌트는 Dot notation으로 쪼개어 사용하지만 전체 속성은 데이터 관리를 위해 필수로 선언해야 함
  */
 export interface PlayerProps {
   id: string;

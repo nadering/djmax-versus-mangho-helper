@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { PlayerProps } from "../components/player/Player";
+import { PlayerProps } from "@/components/player/Player";
 
 /** 한 번도 하지 않은 플레이어를 맨 위로 올리고, 그 뒤로는 플레이 후 기다린 판수 내림차순으로 정렬 */
 export const sortPlayers = (players: PlayerProps[]) => {

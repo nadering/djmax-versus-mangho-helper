@@ -1,9 +1,12 @@
-import Command, { MAXIMUM_PLAYER } from "..";
-import { PlayerProps } from "../../components/player/Player";
-import { makePlayer } from "../../utils/PlayerListUtil";
+import Command from "..";
+import { PlayerProps } from "@/components/player/Player";
+import { MAXIMUM_PLAYER } from "@/constants/player";
+import { makePlayer } from "@/utils/PlayerUtil";
 
 /** 플레이어 추가 커맨드 */
 export class AddPlayerCommand implements Command {
+  private deletedPlayer: PlayerProps | undefined;
+
   constructor(
     private setPlayers: React.Dispatch<React.SetStateAction<PlayerProps[]>>
   ) {}
@@ -24,6 +27,19 @@ export class AddPlayerCommand implements Command {
   }
 
   undo() {
-    this.setPlayers((prev) => prev.slice(1));
+    this.setPlayers((prev) => {
+      this.deletedPlayer = prev.at(0);
+      return prev.slice(1);
+    });
+  }
+
+  redo() {
+    this.setPlayers((prev) => {
+      if (this.deletedPlayer) {
+        return [{ ...this.deletedPlayer }, ...prev];
+      } else {
+        return prev;
+      }
+    });
   }
 }

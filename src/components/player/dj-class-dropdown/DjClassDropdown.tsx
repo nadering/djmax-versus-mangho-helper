@@ -1,6 +1,6 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { memo, useRef } from "react";
-import { DJ_CLASS_LIST } from ".";
+import { DJ_CLASS_LIST } from "@/constants/dj-class";
 
 export type ButtonType = "4" | "5" | "6" | "8";
 

@@ -1,6 +1,6 @@
 import { arrayMove } from "@dnd-kit/sortable";
 import Command from "..";
-import { PlayerProps } from "../../components/player/Player";
+import { PlayerProps } from "@/components/player/Player";
 
 interface MovePlayerCommandProps {
   fromIndex: number;
@@ -30,5 +30,9 @@ export class MovePlayerCommand implements Command {
     this.setPlayers((prevPlayers) => {
       return arrayMove(prevPlayers, this.toIndex, this.fromIndex);
     });
+  }
+
+  redo() {
+    this.execute();
   }
 }

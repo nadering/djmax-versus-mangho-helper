@@ -1,5 +1,5 @@
 import Command from "..";
-import { PlayerProps } from "../../components/player/Player";
+import { PlayerProps } from "@/components/player/Player";
 
 interface DeletePlayerCommandProps {
   id: string;
@@ -60,16 +60,15 @@ export class DeletePlayerCommand implements Command {
         const after = prev.slice(index);
         const restored = [...before, player, ...after];
 
-        // 디버깅용 로그
-        if (restored.some((p) => !p || typeof p.id !== "string")) {
-          console.warn("복원된 플레이어 리스트에 문제가 있습니다:", restored);
-        }
-
         return restored;
       });
 
       this.deletedIndex = null;
       this.deletedPlayer = undefined;
     }
+  }
+
+  redo() {
+    this.execute();
   }
 }

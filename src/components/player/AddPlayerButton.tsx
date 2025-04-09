@@ -8,6 +8,7 @@ interface AddPlayerButtonProps
 const AddPlayerButton = memo(({ onClick }: AddPlayerButtonProps) => {
   return (
     <button
+      title="플레이어 추가"
       className="relative w-full h-10 flex items-center justify-center gap-2 bg-white rounded-lg shadow-md select-none duration-100 cursor-pointer
       hover:bg-gray-100 active:bg-gray-200"
       onClick={onClick}

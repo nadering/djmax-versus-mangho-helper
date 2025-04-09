@@ -11,19 +11,18 @@ import {
 } from "@dnd-kit/sortable";
 import { ChangeEvent, useState } from "react";
 import AddPlayerButton from "./AddPlayerButton";
-import { MAXIMUM_PLAYER } from "../../commands";
-import { useSetAtom } from "jotai";
-import { pushUndoAtom } from "../../stores/CommandStore";
 import Player, { PlayerProps } from "./Player";
 import { OnDjClassSelectProps } from "./dj-class-dropdown/DjClassDropdown";
-import { makePlayer } from "../../utils/PlayerListUtil";
+import { makePlayer } from "@/utils/PlayerUtil";
 import {
   AddPlayerCommand,
   DeletePlayerCommand,
   MovePlayerCommand,
   SetCaptainCommand,
   SetRecentPlayCommand,
-} from "../../commands/player";
+} from "@/commands/player";
+import { runCommand } from "@/utils/CommandUtil";
+import { MAXIMUM_PLAYER } from "@/constants/player";
 
 const initialPlayer = makePlayer(true);
 const initialPlayers: PlayerProps[] = [initialPlayer];
@@ -33,9 +32,6 @@ const PlayerList = () => {
   const [players, setPlayers] = useState(initialPlayers);
   const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(null);
   const isCaptainExist = players.some((p) => p.isCaptain);
-
-  // Undo 전역 상태
-  const pushUndo = useSetAtom(pushUndoAtom);
 
   // 드래그
   const sensors = useSensors(useSensor(PointerSensor));
@@ -80,8 +76,7 @@ const PlayerList = () => {
   // 커맨드
   const handleAddButton = () => {
     const command = new AddPlayerCommand(setPlayers);
-    command.execute();
-    pushUndo(command);
+    runCommand(command);
   };
 
   const handleDeleteButton = (id: string) => {
@@ -90,8 +85,7 @@ const PlayerList = () => {
       setPlayers,
       setSelectedPlayerId,
     });
-    command.execute();
-    pushUndo(command);
+    runCommand(command);
   };
 
   const handleRecentPlayButton = (id: string) => {
@@ -100,8 +94,7 @@ const PlayerList = () => {
       setPlayers,
       setSelectedPlayerId,
     });
-    command.execute();
-    pushUndo(command);
+    runCommand(command);
   };
 
   const handleCaptainButton = (id: string) => {
@@ -109,8 +102,7 @@ const PlayerList = () => {
       id,
       setPlayers,
     });
-    command.execute();
-    pushUndo(command);
+    runCommand(command);
   };
 
   /** 컴포넌트 드래그 이벤트가 종료되면, 리스트에서 인덱스를 변경 */
@@ -126,8 +118,7 @@ const PlayerList = () => {
       toIndex,
       setPlayers,
     });
-    command.execute();
-    pushUndo(command);
+    runCommand(command);
   };
 
   return (
