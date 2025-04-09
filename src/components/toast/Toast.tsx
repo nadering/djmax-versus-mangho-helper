@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { calculateToastStyle, removeToast } from "@/utils/ToastUtil";
-import { ANIMATION_TIME, PREVENT_BLINKING_TIME } from "@/constants/Toast";
+import { PREVENT_BLINKING_TIME } from "@/constants/Toast";
 
 export interface ToastProps {
   children: React.ReactNode;
@@ -15,13 +15,9 @@ interface IndexProps {
 /** 토스트 팝업 */
 const Toast = ({ children, id, ttl, index }: ToastProps & IndexProps) => {
   const toastRef = useRef<HTMLLIElement>(null);
-  const animated = useRef(false);
+  const isTop = index === 0;
 
   useEffect(() => {
-    const fadeInTimer = setTimeout(() => {
-      animated.current = true;
-    }, ANIMATION_TIME);
-
     const fadeOutTimer = setTimeout(() => {
       toastRef.current?.classList.add("animate-fade-out-opacity");
     }, ttl - PREVENT_BLINKING_TIME);
@@ -31,20 +27,25 @@ const Toast = ({ children, id, ttl, index }: ToastProps & IndexProps) => {
     }, ttl);
 
     return () => {
-      clearTimeout(fadeInTimer);
       clearTimeout(fadeOutTimer);
       clearTimeout(lifeTimer);
     };
-  }, [children, ttl]);
+  }, []);
 
   return (
     <li
       ref={toastRef}
-      className={`absolute flex items-center justify-center px-3 py-1 bg-gray-800 text-white font-medium rounded-md shadow-lg select-none
-        ${!animated.current ? "animate-fade-in-scale" : ""}`}
+      className="absolute flex items-center justify-center px-3 py-1 bg-gray-800 text-white font-medium rounded-md shadow-lg select-none animate-fade-in-scale"
       style={calculateToastStyle(index)}
+      role="listitem"
+      data-testid={`toast-${id}`}
     >
-      {children}
+      <div
+        className={`${!isTop ? "opacity-0 pointer-events-none" : ""}`}
+        aria-hidden={!isTop}
+      >
+        {children}
+      </div>
     </li>
   );
 };

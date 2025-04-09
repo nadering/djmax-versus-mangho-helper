@@ -36,3 +36,17 @@ export const makePlayer = (isCaptain: boolean = false) => {
     isCaptain,
   } as PlayerProps;
 };
+
+/** 선장 여부에 따라 선장 아이콘 색상 설정 */
+export const getCaptainColor = (
+  isCaptain: boolean,
+  isCaptainExist: boolean
+) => {
+  if (isCaptain) {
+    return "#51bb93";
+  } else if (isCaptainExist) {
+    return "#dddddd";
+  } else {
+    return "#999999";
+  }
+};

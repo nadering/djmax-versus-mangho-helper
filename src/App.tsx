@@ -25,7 +25,7 @@ function App() {
       <main className="relative w-full h-full flex flex-col items-center bg-gray-200 py-8">
         <div className="relative w-full max-w-xl flex justify-center">
           <CommandArrow />
-          <p className="text-4xl font-bold select-none">버망호 도우미</p>
+          <h1 className="text-4xl font-bold select-none">버망호 도우미</h1>
           <GuideModal />
         </div>
         <PlayerList />

@@ -19,7 +19,7 @@ export interface PlayerProps {
   selected: boolean; // 이번 판 플레이할지
 }
 
-/** 버망호 플레이어 */
+/** 버망호 플레이어 UI 컴포넌트 집합 */
 const Player = {
   Draggable: Draggable,
   Information: Information,
