@@ -57,34 +57,19 @@ const DjClass = memo(
               peer-checked:bg-blue-400 peer-checked:border-blue-400 peer-checked:*:visible"
             aria-hidden
           >
-            <Check className="w-3 h-3 invisible" color="#ffffff" />
+            <Check className="w-3 h-3 invisible" color="#ffffff" aria-hidden />
           </div>
         </label>
         <div className="grid grid-cols-2 grid-rows-2 gap-x-1 gap-y-4 py-3">
-          <DjClassDropdown
-            id={id}
-            button="4"
-            value={data[4].value}
-            onDjClassSelect={onDjClassSelect}
-          />
-          <DjClassDropdown
-            id={id}
-            button="5"
-            value={data[5].value}
-            onDjClassSelect={onDjClassSelect}
-          />
-          <DjClassDropdown
-            id={id}
-            button="6"
-            value={data[6].value}
-            onDjClassSelect={onDjClassSelect}
-          />
-          <DjClassDropdown
-            id={id}
-            button="8"
-            value={data[8].value}
-            onDjClassSelect={onDjClassSelect}
-          />
+          {(["4", "5", "6", "8"] as const).map((key) => (
+            <DjClassDropdown
+              key={key}
+              id={id}
+              button={key}
+              value={data[key].value}
+              onDjClassSelect={onDjClassSelect}
+            />
+          ))}
         </div>
       </div>
     );

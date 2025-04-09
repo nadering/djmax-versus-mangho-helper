@@ -1,3 +1,4 @@
+import { getCaptainColor } from "@/utils/PlayerUtil";
 import { Crown, Trash2 } from "lucide-react";
 import { memo, MouseEventHandler } from "react";
 
@@ -19,36 +20,31 @@ const Control = memo(
     // 다른 사람들 중 선장이 있는지 여부
     const isCaptainAnother = isCaptainExist && !isCaptain;
 
-    /** 선장 여부에 따라 선장 아이콘 색상 설정 */
-    const getCaptainColor = (isCaptain: boolean, isCaptainExist: boolean) => {
-      if (isCaptain) {
-        return "#51bb93";
-      } else if (isCaptainExist) {
-        return "#dddddd";
-      } else {
-        return "#999999";
-      }
-    };
-
     return (
       <div className="absolute right-0 w-11 h-full flex flex-col justify-center px-3 gap-3">
         <button
           title="선장"
           className={`${isCaptainAnother ? "" : "cursor-pointer duration-100 hover:scale-120"}`}
-          disabled={isCaptainAnother}
           onClick={onCaptainButtonClick}
+          type="button"
+          disabled={isCaptainAnother}
+          aria-pressed={isCaptain}
+          aria-label="선장 여부 설정"
         >
           <Crown
             className="w-5 h-5"
             color={getCaptainColor(isCaptain, isCaptainExist)}
+            aria-hidden
           />
         </button>
         <button
           title="삭제"
           className="cursor-pointer duration-100 hover:scale-120"
           onClick={onDeleteButtonClick}
+          type="button"
+          aria-label="플레이어 삭제"
         >
-          <Trash2 className="w-5 h-5" color="#ff0f0f" />
+          <Trash2 className="w-5 h-5 text-red-500" aria-hidden />
         </button>
       </div>
     );

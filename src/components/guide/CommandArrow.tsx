@@ -26,10 +26,13 @@ const CommandArrow = () => {
           isUndoExist ? "cursor-pointer duration-100 hover:scale-120" : ""
         }
         onClick={() => undoCommandFromStack()}
+        type="button"
+        disabled={!isUndoExist}
+        aria-label="실행 취소"
       >
         <ArrowLeft
-          className="w-6 h-6"
-          color={isUndoExist ? "#333333" : "#bbbbbb"}
+          className={`w-6 h-6 ${isUndoExist ? "text-gray-900" : "text-gray-400"}`}
+          aria-hidden
         />
       </button>
       <button
@@ -38,10 +41,13 @@ const CommandArrow = () => {
           isRedoExist ? "cursor-pointer duration-100 hover:scale-120" : ""
         }
         onClick={() => redoCommandFromStack()}
+        type="button"
+        disabled={!isRedoExist}
+        aria-label="다시 실행"
       >
         <ArrowRight
-          className="w-6 h-6"
-          color={isRedoExist ? "#333333" : "#bbbbbb"}
+          className={`w-6 h-6 ${isRedoExist ? "text-gray-900" : "text-gray-400"}`}
+          aria-hidden
         />
       </button>
     </div>

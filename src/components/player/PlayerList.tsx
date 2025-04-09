@@ -9,7 +9,7 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useMemo, useState } from "react";
 import AddPlayerButton from "./AddPlayerButton";
 import Player, { PlayerProps } from "./Player";
 import { OnDjClassSelectProps } from "./dj-class-dropdown/DjClassDropdown";
@@ -35,7 +35,10 @@ const PlayerList = () => {
   // 플레이어
   const [players, setPlayers] = useState(initialPlayers);
   const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(null);
-  const isCaptainExist = players.some((p) => p.isCaptain);
+  const isCaptainExist = useMemo(
+    () => players.some((p) => p.isCaptain),
+    [players]
+  );
 
   // 드래그
   const sensors = useSensors(useSensor(PointerSensor));
@@ -117,7 +120,10 @@ const PlayerList = () => {
         items={players.map((player) => player.id)}
         strategy={verticalListSortingStrategy}
       >
-        <ul className="w-full min-w-110 max-w-xl flex flex-col gap-2 p-4">
+        <ul
+          className="w-full min-w-110 max-w-xl flex flex-col gap-2 p-4"
+          role="list"
+        >
           {players.length < MAXIMUM_PLAYER && (
             <AddPlayerButton onClick={handleAddButton} />
           )}
