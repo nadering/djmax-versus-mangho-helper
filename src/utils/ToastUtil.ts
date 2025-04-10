@@ -4,9 +4,6 @@ import { toastListAtom, toastStore } from "@/stores/ToastStore";
 import { nanoid } from "nanoid";
 
 const calculateSum = (index: number) => {
-  if (index === 0) {
-    return 0;
-  }
   return (index * (index + 1)) / 2;
 };
 
