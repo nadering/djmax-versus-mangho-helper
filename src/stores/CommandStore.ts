@@ -10,17 +10,23 @@ export const redoStackAtom = atom<Command[]>([]);
 /** Command를 받아 undoStackAtom에 추가 (Set only) */
 export const pushUndoAtom = atom(null, (get, set, newUndo: Command) => {
   const current = get(undoStackAtom);
+  const newUndoStack = [...current, newUndo];
 
-  if (current.length < COMMAND_STACK_MAXIMUM_SIZE) {
-    set(undoStackAtom, [...current, newUndo]);
+  if (newUndoStack.length > COMMAND_STACK_MAXIMUM_SIZE) {
+    newUndoStack.shift();
   }
+
+  set(undoStackAtom, newUndoStack);
 });
 
 /** Command를 받아 redoStackAtom에 추가 (Set only) */
 export const pushRedoAtom = atom(null, (get, set, newRedo: Command) => {
   const current = get(redoStackAtom);
+  const newRedoStack = [...current, newRedo];
 
-  if (current.length < COMMAND_STACK_MAXIMUM_SIZE) {
-    set(redoStackAtom, [...current, newRedo]);
+  if (newRedoStack.length > COMMAND_STACK_MAXIMUM_SIZE) {
+    newRedoStack.shift();
   }
+
+  set(redoStackAtom, newRedoStack);
 });
