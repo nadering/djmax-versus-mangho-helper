@@ -9,7 +9,7 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { ChangeEvent, useMemo, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import AddPlayerButton from "./AddPlayerButton";
 import Player, { PlayerProps } from "./Player";
 import { OnDjClassSelectProps } from "./dj-class-dropdown/DjClassDropdown";
@@ -26,6 +26,8 @@ import {
 } from "@/commands/player";
 import { runCommand } from "@/utils/CommandUtil";
 import { MAXIMUM_PLAYER } from "@/constants/Player";
+import { useSetAtom } from "jotai";
+import { playerDispatcherAtom, playerStore } from "@/stores/PlayerStore";
 
 const initialPlayer = makePlayer(true);
 const initialPlayers: PlayerProps[] = [initialPlayer];
@@ -43,24 +45,28 @@ const PlayerList = () => {
   // 드래그
   const sensors = useSensors(useSensor(PointerSensor));
 
+  // Dispatcher
+  const setDispatcher = useSetAtom(playerDispatcherAtom, {
+    store: playerStore,
+  });
+
   // 커맨드 목록
   const handleAddButton = () => {
-    const command = new AddPlayerCommand(setPlayers);
-    runCommand(command);
+    runCommand(new AddPlayerCommand(setPlayers));
   };
 
   const handleNickname = (id: string, nickname: string) => {
-    const command = new SetNicknameCommand({ id, nickname, setPlayers });
-    runCommand(command);
+    runCommand(new SetNicknameCommand({ id, nickname, setPlayers }));
   };
 
   const handleRecentPlayButton = (id: string) => {
-    const command = new SetRecentPlayCommand({
-      id,
-      setPlayers,
-      setSelectedPlayerId,
-    });
-    runCommand(command);
+    runCommand(
+      new SetRecentPlayCommand({
+        id,
+        setPlayers,
+        setSelectedPlayerId,
+      })
+    );
   };
 
   const handleDjClassFake = (
@@ -68,30 +74,30 @@ const PlayerList = () => {
     event: ChangeEvent<HTMLInputElement>
   ) => {
     const checked = event.target.checked;
-    const command = new SetDjClassFakeCommand({ id, checked, setPlayers });
-    runCommand(command);
+    runCommand(new SetDjClassFakeCommand({ id, checked, setPlayers }));
   };
 
   const handleDjClassSelect = ({ id, button, value }: OnDjClassSelectProps) => {
-    const command = new SetDjClassCommand({ id, button, value, setPlayers });
-    runCommand(command);
+    runCommand(new SetDjClassCommand({ id, button, value, setPlayers }));
   };
 
   const handleCaptainButton = (id: string) => {
-    const command = new SetCaptainCommand({
-      id,
-      setPlayers,
-    });
-    runCommand(command);
+    runCommand(
+      new SetCaptainCommand({
+        id,
+        setPlayers,
+      })
+    );
   };
 
   const handleDeleteButton = (id: string) => {
-    const command = new DeletePlayerCommand({
-      id,
-      setPlayers,
-      setSelectedPlayerId,
-    });
-    runCommand(command);
+    runCommand(
+      new DeletePlayerCommand({
+        id,
+        setPlayers,
+        setSelectedPlayerId,
+      })
+    );
   };
 
   /** 컴포넌트 드래그 이벤트가 종료되면, 리스트에서 인덱스를 변경 */
@@ -102,13 +108,19 @@ const PlayerList = () => {
     const fromIndex = players.findIndex((p) => p.id === active.id);
     const toIndex = players.findIndex((p) => p.id === over.id);
 
-    const command = new MovePlayerCommand({
-      fromIndex,
-      toIndex,
-      setPlayers,
-    });
-    runCommand(command);
+    runCommand(
+      new MovePlayerCommand({
+        fromIndex,
+        toIndex,
+        setPlayers,
+      })
+    );
   };
+
+  // 전역으로 setPlayers 등록
+  useEffect(() => {
+    setDispatcher(setPlayers);
+  }, [setPlayers]);
 
   return (
     <DndContext

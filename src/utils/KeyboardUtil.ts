@@ -1,3 +1,4 @@
+import { addPlayerCommandRunner } from "@/commands/player/runner/AddPlayerRunner";
 import { redoCommandFromStack, undoCommandFromStack } from "./CommandUtil";
 
 /** 키보드 이벤트 핸들러 */
@@ -13,5 +14,9 @@ export const handleKeyboardCommand = (event: KeyboardEvent) => {
     // 다시 실행 (Ctrl + Y)
     event.preventDefault();
     redoCommandFromStack();
+  } else if (ctrlKey && event.key === "n") {
+    // 플레이어 추가 (Ctrl + N)
+    event.preventDefault();
+    addPlayerCommandRunner();
   }
 };
