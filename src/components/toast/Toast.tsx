@@ -35,7 +35,8 @@ const Toast = ({ children, id, ttl, index }: ToastProps & IndexProps) => {
   return (
     <li
       ref={toastRef}
-      className="absolute flex items-center justify-center px-3 py-1 bg-gray-800 text-white font-medium rounded-md shadow-lg select-none animate-fade-in-scale"
+      className={`absolute flex items-center justify-center px-3 py-1 bg-gray-800 text-white font-medium rounded-md shadow-lg select-none
+        ${isTop ? "animate-fade-in-scale" : ""}`}
       style={calculateToastStyle(index)}
       role="listitem"
       data-testid={`toast-${id}`}

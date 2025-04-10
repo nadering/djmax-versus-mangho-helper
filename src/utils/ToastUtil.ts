@@ -3,13 +3,24 @@ import { ToastProps } from "@/components/toast/Toast";
 import { toastListAtom, toastStore } from "@/stores/ToastStore";
 import { nanoid } from "nanoid";
 
+const calculateSum = (index: number) => {
+  if (index === 0) {
+    return 0;
+  }
+  return (index * (index + 1)) / 2;
+};
+
+const calculateTop = (index: number) => {
+  return 7 * index - calculateSum(index);
+};
+
 /** 인덱스에 따라 토스트 스타일을 계산 후 반환 */
 export const calculateToastStyle = (index: number): CSSProperties => {
   return {
     zIndex: 9999 - index,
-    top: `${index * 6}px`,
+    top: `${calculateTop(index)}px`,
     transform: `scale(${1 - index * 0.07})`,
-    opacity: `${1 - index * 0.2}`,
+    opacity: `${1 - index * 0.23}`,
   };
 };
 
