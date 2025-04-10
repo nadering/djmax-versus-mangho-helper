@@ -4,6 +4,8 @@ import { PlayerProps } from "@/components/player/Player";
 
 export const playerStore = createStore();
 
-export const playerDispatcherAtom = atom<Dispatch<
-  SetStateAction<PlayerProps[]>
-> | null>(null);
+interface PlayerDispatcher {
+  setPlayers: Dispatch<SetStateAction<PlayerProps[]>>;
+}
+
+export const playerDispatcherAtom = atom<PlayerDispatcher | null>(null);

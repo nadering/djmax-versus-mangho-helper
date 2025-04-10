@@ -92,6 +92,7 @@ const Information = memo(
           onBlur={onNicknameBlur}
           autoFocus={innerNickname.length === 0}
           aria-label="플레이어 닉네임 입력"
+          data-nickname-input
         />
         <button
           title="플레이어 설정 및 최근 플레이 확인"

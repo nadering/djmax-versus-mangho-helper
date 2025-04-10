@@ -46,7 +46,7 @@ const PlayerList = () => {
   const sensors = useSensors(useSensor(PointerSensor));
 
   // Dispatcher
-  const setDispatcher = useSetAtom(playerDispatcherAtom, {
+  const setPlayerDispatcher = useSetAtom(playerDispatcherAtom, {
     store: playerStore,
   });
 
@@ -119,7 +119,7 @@ const PlayerList = () => {
 
   // 전역으로 setPlayers 등록
   useEffect(() => {
-    setDispatcher(setPlayers);
+    setPlayerDispatcher({ setPlayers });
   }, [setPlayers]);
 
   return (
