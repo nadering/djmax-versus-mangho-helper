@@ -1,1 +1,2 @@
 export const COMMAND_STACK_MAXIMUM_SIZE = 30;
+export const COMMAND_WAITING_TIME = 20;
